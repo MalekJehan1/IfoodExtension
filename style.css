@@ -1,0 +1,56 @@
+.CopyButton {
+    padding: 12px 24px;
+    font-size: 16px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    outline: none;
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.CopyButton:hover {
+    background-color: #2980b9;
+}
+
+.CopyButton:active {
+    transform: scale(0.95);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.alerta-personalizado {
+    position: fixed;
+    /* Posição fixa para manter o alerta visível mesmo com scroll */
+    top: 20px;
+    /* Distância do topo da página */
+    left: 50%;
+    /* Centralizando horizontalmente */
+    transform: translateX(-50%);
+    /* Ajustando para o centro exato */
+    background-color: #faf7f7;
+    /* Cor de fundo */
+    color: #be404b;
+    /* Cor do texto */
+    padding: 15px;
+    /* Espaçamento interno */
+    border: 1px solid #f5c6cb;
+    /* Borda */
+    border-radius: 4px;
+    /* Borda arredondada */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* Sombra */
+    z-index: 1000;
+    /* Z-index para garantir que fique acima de outros elementos */
+    width: 300px;
+    /* Largura */
+    font-family: Arial, sans-serif;
+    /* Fonte */
+}
+
+.alerta-personalizado p {
+    margin: 0;
+    /* Remover margem padrão do parágrafo */
+    font-size: 16px;
+    /* Tamanho da fonte */
+}
