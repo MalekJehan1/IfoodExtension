@@ -1,6 +1,6 @@
 {
     "manifest_version": 3,
-    "name": "IfoodExtension",
+    "name": "IfoodExtensionv1",
     "version": "1.0",
     "content_scripts": [
         {

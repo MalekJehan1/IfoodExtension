@@ -1,13 +1,27 @@
 const interval = setInterval(() => {
-    const headerbutton = document.getElementsByClassName('Flex-sc-rrnf8w-0 sc-bLHCGa dGHDvZ cMIVsi')[0]
-    veButton = document.getElementsByClassName('CopyButton')
+
+    // Posicionando o botão na parte superior, ao lado dos botões de contato
+    let headerbutton = document.getElementsByClassName('OrderDetails__content')[0]
+
+
+    //um teste para verificar se a pagina foi carregada,
+    //se a variavel "headerbutton" for diferente de undefinid, é pq a pagina carregou
     if (headerbutton) {
+        headerbutton = headerbutton.firstChild
+        headerbutton = headerbutton.firstChild
+        console.log('eae')
+        //Criando o botão
+        veButton = document.getElementsByClassName('CopyButton')
+        //um teste para verificar se o botão foi criado, 
+        //pois caso você saia da section de pedidos e volte
+        //o botão sera criado novamente
         if (veButton.length < 1) {
-            console.log('oi')
-            createButton(headerbutton)
+            console.log('oi') // teste para verif. se está rodando kkk
+            createButton(headerbutton) //cria o botão no local especif.
         }
 
     }
+    console.log('ok')
 
 }, 1000);
 
@@ -15,7 +29,7 @@ function createButton(headerbutton) {
     const button = document.createElement("button")
     button.innerHTML = "Copiar informaçõoes"
     button.classList.add("CopyButton")
-
+    console.log('botao criado')
 
     button.addEventListener("click", () => {
 
@@ -42,17 +56,17 @@ function createButton(headerbutton) {
         // Remove o elemento input
         document.body.removeChild(textarea);
 
-        mostrarAlertaPersonalizado("Informações copiadas!", 3000)
+        clickAlert("Informações copiadas!", 3000)
 
     })
 
     headerbutton.appendChild(button)
 }
 
-function mostrarAlertaPersonalizado(mensagem, tempoExibicao) {
+function clickAlert(mensagem, tempoExibicao) {
     // Criar elemento de alerta
     var alerta = document.createElement('div');
-    alerta.classList.add('alerta-personalizado');
+    alerta.classList.add('clickAlertDiv');
     alerta.textContent = mensagem;
 
     // Adicionar alerta ao corpo do documento
@@ -65,32 +79,66 @@ function mostrarAlertaPersonalizado(mensagem, tempoExibicao) {
 }
 
 function start() {
+
     let text = "";
-    // Remove o ponto (.) do nome da classe
-    //const divElements = document.getElementsByClassName('Flex-sc-rrnf8w-0 sc-zmges jvRBXt grTgpo');
-    const divElements = document.getElementsByClassName('BaseText-sc-1a1327l-0 defZLu sc-erUUZj ccVjle');
-    let nome = document.getElementsByClassName('BaseHeading-sc-x85g2i-0 fOfEBN sc-dfzyxB iIFvKc')[0].textContent
-    let nPedido = remChars(document.getElementsByClassName('BaseText-sc-1a1327l-0 fFTMEZ sc-kZkypy fyfdQI')[0].textContent)
+
+
+    divOrderDetails = document.getElementsByClassName('OrderDetails__content')[0]
     const divTotal = document.getElementsByClassName('Summary__total')[0]
+    divContact = document.getElementsByClassName('ContactButton__label')[0]
 
-
-    text += nPedido + '\n'
-    text += "Nome: " + nome + '\n'
+    text += nPedido(divOrderDetails) + '\n'
+    text += "Nome: " + nomeCliente(divOrderDetails) + '\n'
+    text += "Contato: " + contactPhone(divContact) + '\n'
     text += "Valor: R$ " + totalPrice(divTotal) + '\n'
     text += "Tipo de Pagamento: " + tipoPagamento(divTotal) + '\n'
-    // Verifica se algum elemento foi encontrado
-    if (divElements.length > 0) {
-
-        text += getEndereco(divElements)
-
-
-    } else {
-        console.log('Elemento <div> não encontrado.');
-    }
+    text += getEndereco(divOrderDetails)
 
     return text
 }
 
+function nomeCliente(divOrderDetails) {
+    let pedido = divOrderDetails
+    let x = 6
+    for (let i = 0; i < x; i++) {
+        pedido = pedido.firstChild
+    }
+    stringFormatada = pedido.textContent
+
+    stringFormatada[0] = stringFormatada[0].toUpperCase()
+
+    for (let i = 0; i < stringFormatada.length; i++) {
+        if (stringFormatada[i] == ' ')
+            stringFormatada[++i] = stringFormatada[++i].toUpperCase()
+    }
+
+    return stringFormatada
+
+}
+
+function nPedido(divOrderDetails) {
+    let pedido = divOrderDetails
+    let x = 4
+    for (let i = 0; i < x; i++) {
+        pedido = pedido.firstChild
+    }
+    pedido = pedido.children[1]
+    pedido = pedido.firstChild
+    return remChars(pedido.textContent)
+}
+
+function contactPhone(divContact) {
+
+    numberContact = divContact.textContent
+
+    numberContact = numberContact.substring(0, numberContact.indexOf('ID')) + numberContact.substring(numberContact.indexOf(':'))
+
+    numberContact = numberContact.replaceAll(' ', '')
+    numberContact = numberContact.replace(':', ';')
+
+    return numberContact
+
+}
 
 function tipoPagamento(divTotal) {
     return divTotal.getElementsByClassName('InlineItem')[0].textContent
@@ -103,8 +151,8 @@ function totalPrice(divTotal) {
 }
 
 function remChars(str) {
+
     // Define a expressão regular para caracteres que não são letras, números ou espaços
-    //const regex = /[^a-zA-Z0-9\s]/g;
     const regexPonto = new RegExp("●", 'g')
     // Remove os caracteres especiais da string usando replace
     let txt = str.replace(regexPonto, '')
@@ -113,19 +161,29 @@ function remChars(str) {
 }
 
 
-function getEndereco(divElements) {
-    // Seleciona o primeiro elemento da coleção
-    const divElement = divElements[0];
+function getEndereco(divOrderDetails) {
 
-    // Seleciona todos os elementos dentro da div
-    const childElements = divElement.querySelectorAll('*');
-
+    let pedido = divOrderDetails
+    //let pedido = divOrderDetails
+    pedido = pedido.firstChild
+    pedido = pedido.children[2]
+    pedido = pedido.children[1]
+    pedido = pedido.firstChild
+    const childElements = pedido.querySelectorAll('*');
     const end = childElements[0].textContent.split("●")
 
     let text = ""
     text += "Endereço: " + end[0] + end[1] + '\n'
-    text += "Referência:" + end[2] + '\n'
-    text += "Complemento:" + end[3] + '\n'
+
+    text += "Referência:"
+    if (end[2])
+        text += end[2] + '\n'
+    else text += "" + '\n'
+
+    text += "Complemento:"
+    if (end[3])
+        text += end[3] + '\n'
+    else text += "" + '\n'
 
     return (text)
 

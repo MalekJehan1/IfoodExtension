@@ -19,7 +19,7 @@
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
-.alerta-personalizado {
+.clickAlertDiv {
     position: fixed;
     /* Posição fixa para manter o alerta visível mesmo com scroll */
     top: 20px;
@@ -48,7 +48,7 @@
     /* Fonte */
 }
 
-.alerta-personalizado p {
+.clickAlertDiv p {
     margin: 0;
     /* Remover margem padrão do parágrafo */
     font-size: 16px;
