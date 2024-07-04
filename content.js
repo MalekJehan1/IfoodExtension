@@ -9,7 +9,7 @@ const interval = setInterval(() => {
     if (headerbutton) {
         headerbutton = headerbutton.firstChild
         headerbutton = headerbutton.firstChild
-        console.log('eae')
+        //console.log('eae')
         //Criando o botão
         veButton = document.getElementsByClassName('CopyButton')
         //um teste para verificar se o botão foi criado, 
@@ -87,11 +87,11 @@ function start() {
     const divTotal = document.getElementsByClassName('Summary__total')[0]
     divContact = document.getElementsByClassName('ContactButton__label')[0]
 
-    text += nPedido(divOrderDetails) + '\n'
-    text += "Nome: " + nomeCliente(divOrderDetails) + '\n'
-    text += "Contato: " + contactPhone(divContact) + '\n'
-    text += "Valor: R$ " + totalPrice(divTotal) + '\n'
-    text += "Tipo de Pagamento: " + tipoPagamento(divTotal) + '\n'
+    text += "*`● " + nPedido(divOrderDetails) + "`*" + '\n'
+    text += "*`● Nome`*: " + nomeCliente(divOrderDetails) + '\n'
+    text += "*`● Contato`*: " + contactPhone(divContact) + '\n'
+    text += "*`● Valor`*: R$ " + totalPrice(divTotal) + '\n'
+    text += "*`● Tipo de Pagamento`*: " + tipoPagamento(divTotal) + '\n'
     text += getEndereco(divOrderDetails)
 
     return text
@@ -105,15 +105,14 @@ function nomeCliente(divOrderDetails) {
     }
     stringFormatada = pedido.textContent
 
-    stringFormatada[0] = stringFormatada[0].toUpperCase()
+    return capitalizeWords(stringFormatada)
 
-    for (let i = 0; i < stringFormatada.length; i++) {
-        if (stringFormatada[i] == ' ')
-            stringFormatada[++i] = stringFormatada[++i].toUpperCase()
-    }
+}
 
-    return stringFormatada
-
+function capitalizeWords(str) {
+    return str.split(' ').map(word => {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+    }).join(' ');
 }
 
 function nPedido(divOrderDetails) {
@@ -124,7 +123,8 @@ function nPedido(divOrderDetails) {
     }
     pedido = pedido.children[1]
     pedido = pedido.firstChild
-    return remChars(pedido.textContent)
+    pedido = pedido.firstChild
+    return pedido.textContent
 }
 
 function contactPhone(divContact) {
@@ -141,7 +141,11 @@ function contactPhone(divContact) {
 }
 
 function tipoPagamento(divTotal) {
-    return divTotal.getElementsByClassName('InlineItem')[0].textContent
+    try {
+        return divTotal.getElementsByClassName('InlineItem')[0].textContent
+    } catch (Exception) {
+        return divTotal.getElementsByClassName('SectionItem__label SectionItem__label--bold')[0].textContent
+    }
 }
 
 function totalPrice(divTotal) {
@@ -155,7 +159,7 @@ function remChars(str) {
     // Define a expressão regular para caracteres que não são letras, números ou espaços
     const regexPonto = new RegExp("●", 'g')
     // Remove os caracteres especiais da string usando replace
-    let txt = str.replace(regexPonto, '')
+    let txt = str.replace(regexPonto, ' ')
     // Organiza os espaços em branco (substitui múltiplos espaços por um único espaço)
     return txt.replace(/\s+/g, ' ');
 }
@@ -168,19 +172,19 @@ function getEndereco(divOrderDetails) {
     pedido = pedido.firstChild
     pedido = pedido.children[2]
     pedido = pedido.children[1]
-    pedido = pedido.firstChild
+
     const childElements = pedido.querySelectorAll('*');
     const end = childElements[0].textContent.split("●")
 
     let text = ""
-    text += "Endereço: " + end[0] + end[1] + '\n'
+    text += "*`● Endereço`*: " + end[0] + end[1] + '\n'
 
-    text += "Referência:"
+    text += "*`● Referência`*:"
     if (end[2])
         text += end[2] + '\n'
     else text += "" + '\n'
 
-    text += "Complemento:"
+    text += "*`● Complemento`*:"
     if (end[3])
         text += end[3] + '\n'
     else text += "" + '\n'
