@@ -87,6 +87,7 @@ function start() {
     const divTotal = document.getElementsByClassName('Summary__total')[0]
     divContact = document.getElementsByClassName('ContactButton__label')[0]
 
+    text += "*`●●●● ♦ IFOOD ♦ ●●●●`*" + '\n'
     text += "*`● " + nPedido(divOrderDetails) + "`*" + '\n'
     text += "*`● Nome`*: " + nomeCliente(divOrderDetails) + '\n'
     text += "*`● Contato`*: " + contactPhone(divContact) + '\n'
